@@ -46,12 +46,12 @@ func (c *HTTPClient) Get(url string) (*http.Response, error) {
 		fmt.Println("Request creation failed:", err)
 		return nil, err
 	}
-
 	resp, err := c.client.Do(req)
 	if err != nil {
 		fmt.Println("HTTP request failed:", err)
 		return nil, err
 	}
 	defer resp.Body.Close()
+
 	return resp, nil
 }

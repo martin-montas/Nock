@@ -13,7 +13,6 @@ func CheckStatuscodeFromURL(u string) int {
 		os.Exit(1)
 	}
 	defer response.Body.Close()
-
 	if response.StatusCode != 200 {
 		return response.StatusCode
 	}

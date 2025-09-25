@@ -24,6 +24,12 @@ func (d *NockDir) Parse(version string) {
 		fmt.Println("Expected 'dir' , 'crawl' or 'version' subcommand")
 		return
 	}
+
+	if defaultList == os.Args[1] {
+		fmt.Println("Usage: dir -u <url> -w <wordlist> -t <threads>")
+		os.Exit(1)
+	}
+
 	dirCmd := flag.NewFlagSet("dir", flag.ExitOnError)
 	u := dirCmd.String("u", "", "Target URL")
 	w := dirCmd.String("w", defaultList, "Wordlist path")
@@ -37,8 +43,6 @@ func (d *NockDir) Parse(version string) {
 		fmt.Println("Usage: dir -u <url> -w <wordlist> -t <threads>")
 		os.Exit(1)
 	}
-	// for debugging:
-	// fmt.Printf("URL: %s\n", *u)
 
 	o := &OptionsDir{
 		Wordlist: *w,

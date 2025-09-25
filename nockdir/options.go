@@ -15,7 +15,7 @@ type OptionsDir struct {
 func (o *OptionsDir) DisplayBanner() {
 	fmt.Printf(`
 ===============================================================
-xcrawl %-6s 
+Nock %-6s 
 by martin montas - @github.com/martin-montas
 ===============================================================
 [+] URL:      		%-21s

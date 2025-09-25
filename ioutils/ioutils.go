@@ -12,7 +12,7 @@ const (
 func InitialInfoDirForcer(url string, wordlist string, threads int, version string) {
 	fmt.Printf(`
 ===============================================================
-xcrawl %-6s 
+Nock %-6s 
 by martin montas - @github.com/martin-montas
 ===============================================================
 [+] URL:      		%-21s
@@ -27,7 +27,7 @@ by martin montas - @github.com/martin-montas
 func InitialInfoCrawler(url string, threads int, version string) {
 	fmt.Printf(`
 ===============================================================
-xcrawl %-6s 
+Nock %-6s 
 by martin montas - @github.com/martin-montas
 ===============================================================
 [+] URL:      		%-21s

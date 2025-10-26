@@ -1,4 +1,5 @@
 .todo.md
 # nockcrawl/
 .golangci.yml
+nock
 test/*

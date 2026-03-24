@@ -15,6 +15,7 @@ func Execute() {
 		fmt.Println("Expected 'dir' , 'crawl' or 'version' subcommand")
 		return
 	}
+
 	d, ok := registry[command]
 	if !ok {
 		fmt.Println("Unknown command:", command)

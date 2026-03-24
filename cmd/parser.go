@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	// "nock/nockcrawl"
+	"nock/nockcrawl"
 	// "nock/nockfuzz"
 	"nock/nockdir"
 )
@@ -15,7 +15,7 @@ type Parser interface {
 // modules should be call here
 var registry = map[string]Parser{
 	"dir": &nockdir.NockDir{},
-	// "crawl": &nockcrawl.NockCrawl{},
+	"crawl": &nockcrawl.NockCrawl{},
 	// "fuzz":  &nockfuzz.NockFuzz{},
 }
 

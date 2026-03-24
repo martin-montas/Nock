@@ -88,7 +88,7 @@ func (c *NockCrawl) Run(version string) {
 
 	set := mapset.NewSet[string]()
 
-	Links := []LinkInfo{
+	Links := []Href{
 		{
 			StatusCode: 200,
 			Path:       c.opt.BaseURL,
@@ -97,11 +97,11 @@ func (c *NockCrawl) Run(version string) {
 	}
 
 	var wg sync.WaitGroup
-	for i := 0; i < c.opt.Threads; i++ {
-		wg.Add(1)
-		go worker(&wg, parsedURL, set, Links)
-	}
+	wg.Add(1)
+	jobs := make(chan *url.URL)
+	go worker(&wg, parsedURL, set, Links)
 
+	jobs <- parsedURL
 	wg.Wait()
 	it := set.Iterator()
 

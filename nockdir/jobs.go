@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"strings"
 	"sync"
 
 	"nock/httputils"
@@ -56,6 +57,15 @@ func (d *NockDir) Run(version string) {
 		scanner := bufio.NewScanner(f)
 		for scanner.Scan() {
 			path := scanner.Text()
+			if path == "" {
+				continue
+			}
+			if strings.HasPrefix(path, "\uFEFF") {
+				path = strings.TrimPrefix(path, "\uFEFF")
+			}
+			if strings.HasPrefix(path, "#") || strings.HasPrefix(path, "//") || strings.HasPrefix(path, ";") {
+				continue
+			}
 			url := d.options.BaseURL + path
 			jobs <- url
 		}

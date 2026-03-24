@@ -17,6 +17,7 @@ import (
 var tags = []string{"a", "link", "base", "area"}
 
 func ExtractLinksFromNode(n *html.Node, baseURL url.URL) []Href {
+	links := []Href{}
 	for _, attr := range n.Attr {
 		if attr.Key == "href" {
 			parsed, err := url.Parse(attr.Val)
@@ -31,7 +32,7 @@ func ExtractLinksFromNode(n *html.Node, baseURL url.URL) []Href {
 				continue
 			}
 			if SameDomain(baseURL.String(), resolved.String()) && response.StatusCode == 200 {
-				links = append(links, LinkInfo{
+				links = append(links, Href{
 					StatusCode: response.StatusCode,
 					Path:       resolved.String(),
 					Alive:      true,
@@ -44,7 +45,7 @@ func ExtractLinksFromNode(n *html.Node, baseURL url.URL) []Href {
 	return links
 }
 
-func extractRecursive(doc *html.Node, baseURL url.URL, links []LinkInfo) []LinkInfo {
+func extractRecursive(doc *html.Node, baseURL url.URL, links []Href) []Href {
 	if doc.Type == html.ElementNode && contains(tags, doc.Data) {
 		if whichSection(doc) != "head" {
 			newLinks := ExtractLinksFromNode(doc, baseURL)
@@ -90,8 +91,8 @@ func SameDomain(urlA, urlB string) bool {
 	return hostA == hostB || strings.HasSuffix(hostA, "."+hostB) || strings.HasSuffix(hostB, "."+hostA)
 }
 
-func ExtractLinks(doc *html.Node, baseURL url.URL) []LinkInfo {
-	var links []LinkInfo
+func ExtractLinks(doc *html.Node, baseURL url.URL) []Href {
+	var links []Href
 	return extractRecursive(doc, baseURL, links)
 }
 
@@ -104,7 +105,7 @@ func contains(slice []string, item string) bool {
 	return false
 }
 
-func worker(wg *sync.WaitGroup, parsedURL *url.URL, set mapset.Set[string], l []LinkInfo) {
+func worker(wg *sync.WaitGroup, parsedURL *url.URL, set mapset.Set[string], l []Href) {
 	defer wg.Done()
 
 	for i := 0; i < len(l); i++ {
